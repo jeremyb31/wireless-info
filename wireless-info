@@ -326,35 +326,35 @@ else
     echo "'iw' is not installed (package \"iw\")."
 fi
 
-printf "\n##### iwlist channels ###################\n\n"
-if [ -x /sbin/iwlist ]; then
-    iwlist chan
-else
-    echo "'iwlist' is not installed (package \"wireless-tools\")."
-fi
+#printf "\n##### iwlist channels ###################\n\n"
+#if [ -x /sbin/iwlist ]; then
+#    iwlist chan
+#else
+#    echo "'iwlist' is not installed (package \"wireless-tools\")."
+#fi
 
-printf "\n##### iwlist scan #######################\n\n"
-if [ -x /sbin/iwlist ]; then
-    if [ -n "$SUDO" ]; then
-	trap "" 2 3
-	IWLISTSCAN=$($SUDO${KDESUDO+ -d} iwlist scan) && SUDOSUCCESS="yes" || SUDOSUCCESS="no"
-	trap 2 3
-	if [ "$SUDOSUCCESS" = "yes" ]; then
-	    if [[ $IWLISTSCAN = *Frequency:* ]]; then
-		printf "Channel occupancy:\n\n"
-		grep '^[ ]*Frequency:' <<< "$IWLISTSCAN" | sort | uniq -c | sed 's/^[ ]\+\([ ][0-9]\+\)[ ]\+/     \1   APs on   /'
-		echo
-	    fi
-	    grep -v '^[ ]*IE: Unknown:' <<< "$IWLISTSCAN"
-	else
-	    printf "\nAcquisition of admin privileges failed.\n"
-	fi
-    else
-	echo "No way to acquire admin privileges found."
-    fi
-else
-    echo "'iwlist' is not installed (package \"wireless-tools\")."
-fi
+#printf "\n##### iwlist scan #######################\n\n"
+#if [ -x /sbin/iwlist ]; then
+#    if [ -n "$SUDO" ]; then
+#	trap "" 2 3
+#	IWLISTSCAN=$($SUDO${KDESUDO+ -d} iwlist scan) && SUDOSUCCESS="yes" || SUDOSUCCESS="no"
+#	trap 2 3
+#	if [ "$SUDOSUCCESS" = "yes" ]; then
+#	    if [[ $IWLISTSCAN = *Frequency:* ]]; then
+#		printf "Channel occupancy:\n\n"
+#		grep '^[ ]*Frequency:' <<< "$IWLISTSCAN" | sort | uniq -c | sed 's/^[ ]\+\([ ][0-9]\+\)[ ]\+/     \1   APs on   /'
+#		echo
+#	    fi
+#	    grep -v '^[ ]*IE: Unknown:' <<< "$IWLISTSCAN"
+#	else
+#	    printf "\nAcquisition of admin privileges failed.\n"
+#	fi
+#   else
+#	echo "No way to acquire admin privileges found."
+#    fi
+#else
+#    echo "'iwlist' is not installed (package \"wireless-tools\")."
+#fi
 
 printf "\n##### module infos ######################\n\n"
 MODULES=$(egrep -o "^$MODMATCHES[^ ]*" <<< "$LSMOD")
